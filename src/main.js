@@ -14,9 +14,9 @@ peoplePower.addTrasaction(tx1);
 
 peoplePower.minePendingTrasactions(walletAddress);
 
-//console.log(JSON.stringify(peoplePower, null, 4));
+console.log(JSON.stringify(peoplePower, null, 4));
 
-//console.log(peoplePower.balanceOfAccount(walletAddress));
+console.log(peoplePower.balanceOfAccount(walletAddress));
 
 console.log("isValid: " + peoplePower.isBlockChainValid());
 
