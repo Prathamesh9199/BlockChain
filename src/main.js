@@ -2,7 +2,7 @@ const {BlockChain, Transaction} = require('./BlockChain');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
-const myKey = ec.keyFromPrivate("25383c99e1017e259881a98a63299693e26b76beac6bb05e84c42da3361b9766");
+const myKey = ec.keyFromPrivate("PRIVATE_KEY");
 const walletAddress = myKey.getPublic('hex');
 
 let peoplePower = new BlockChain();
