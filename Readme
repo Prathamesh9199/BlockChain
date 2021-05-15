@@ -2,4 +2,3 @@ Steps to Run BlockChain
   - Step 1: Run src/KeyGenerator.js & Copy Public & Private key on Notepad
   - Step 2: Open src/main.js Replace Public Key & Private Key
   - Step 3: Run src/main.js
-<a href="asd">Download</a>
