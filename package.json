@@ -1,5 +1,5 @@
 {
-  "name": "peoplepower",
+  "name": "blockChain",
   "version": "1.0.0",
   "description": "Simple BlockChain using JS, for research purpose.",
   "main": "src/BlockChain.js",
