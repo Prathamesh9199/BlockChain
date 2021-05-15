@@ -1,12 +1,14 @@
 const SHA = require('crypto-js/sha256');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
+var fs = require('fs');
 
 class Transaction{
     constructor(fromAddress, toAddress, amount){
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.amount = amount;
+        this.timeStamp;
     }    
 
     calculateHash(){
@@ -14,8 +16,9 @@ class Transaction{
     }
 
     signTransaction(signingKey){ // Sender Private Key
-        if(signingKey.getPublic('hex') !== this.fromAddress)
+        if(signingKey.getPublic('hex') !== this.fromAddress){
             throw new Error("You cannot sign transactions for other wallet ...");
+        }
 
         const hashTx = this.calculateHash();
         const sig = signingKey.sign(hashTx, 'base64');
@@ -55,7 +58,7 @@ class Block{
         }
     }
 
-    hasValidTrasactions(){
+    hasValidTransactions(){
         for(const trans of this.transactions){
             if(!trans.isTransactionValid())
                 return false;
@@ -65,24 +68,28 @@ class Block{
 }
 
 class BlockChain{
-    constructor(){
-        this.chain = [this.createGenesisBlock()];
+    constructor(){        
+        this.chain = [this.createGenesisBlock()];        
         this.difficulty = 2;
         this.pendingTransactions = [];
-        this.miningReward = 100;
+        this.miningReward = 10;
+        if(this.chain.length % 5 == 0)
+            this.miningReward = this.miningReward/2;
+        
     }
 
     createGenesisBlock(){
         return new Block(Date.now(), "Genesis Block", "0");
     }
 
-    addTrasaction(transaction){
+    addTransaction(transaction){
         if(!transaction.fromAddress || !transaction.toAddress)
             throw new Error("Transaction must include From & To Address");
 
         if(!transaction.isTransactionValid())            
             throw new Error("Cannot add Invalid Transaction to Block");
 
+        transaction.timeStamp = Date.now();
         this.pendingTransactions.push(transaction);
     }
 
@@ -90,7 +97,7 @@ class BlockChain{
         return this.chain[this.chain.length - 1];
     }
 
-    minePendingTrasactions(miningRewardAddress){
+    minePendingTransactions(miningRewardAddress){
         if(this.pendingTransactions.length === 0)
             throw new Error("Please add some transactions to Block");
 
@@ -135,6 +142,20 @@ class BlockChain{
         }
 
         return true;
+    }
+
+    isValidPublicPrivate(privateKey, pubilcKey){
+        const myKey = ec.keyFromPrivate(privateKey);
+        const NewPublic = myKey.getPublic('hex');
+
+        if(pubilcKey === NewPublic)
+            return true; 
+        else
+            return false;
+    }
+
+    keyObject(privateKey){
+        return ec.keyFromPrivate(privateKey);
     }
 }
 
