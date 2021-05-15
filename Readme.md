@@ -5,5 +5,6 @@
   
   
  ## Steps to Install as Angular Module
-    - Step 1: npm install --save github:Prathamesh9199/BlockChain
-    - Step 2: import { BlockChain } from 'blockChain/src/BlockChain';
+    npm install --save github:Prathamesh9199/BlockChain
+    
+    import { BlockChain } from 'blockChain/src/BlockChain';
